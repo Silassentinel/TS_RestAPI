@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 /**
  * Business Logics Layer Logger
  * creates logfiles for each error, warning, info and event
@@ -8,7 +9,7 @@ export default class BLLLogger {
    * Path to the verbose logfile
    * extracted from .env file
    */
-  private _verboseLogPath = '';
+  private _verboseLogPath = dotenv.config();
 
   /**
    * Path to the error logfile

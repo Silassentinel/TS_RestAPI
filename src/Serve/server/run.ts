@@ -1,19 +1,25 @@
 import cors from 'cors';
+import * as dotenv from 'dotenv';
+import Express from 'express';
+import Helmet from 'helmet';
+import { stdout } from 'process';
+import * as fallback from '../Routes/Fallback';
 
 // Start method
-export const start = () => {
-  require('dotenv').config(); // server config uit een .env bestand halen
-  const Cors = cors; // toelaten van cors // dit werkte tot op een zeker punt en werd dan teniet gedaan// nog niet gevonden wat er toe leidde
+const start = () => {
+  dotenv.config(); // server config uit een .env bestand halen
+  const Cors = cors; // toelaten van cors // dit werkte tot op een zeker punt en werd dan teniet gedaan
+  // nog niet gevonden wat er toe leidde
   const port = process.env.PORT || 3000; // zetten van de port
-  const express = require('express'); // express server
+  const express = Express; // express server
   const app = express(); // bruikbaar maken
-  const helmet = require('helmet'); // bescherming tegen header attacks
-  const FallBackRoute = require('../routes/fallback'); // men kan al eens een foutje typen
+  const helmet = Helmet; // bescherming tegen header attacks
+  const FallBackRoute = fallback; // men kan al eens een foutje typen
 
   /*
    *IMPORT ROUTES HERE
    */
-  app.use('*', FallBackRoute); // fallback routes
+  app.use('*', FallBackRoute.default.route); // fallback routes
 
   // verdere setup van de CORS plugin
   const corsOptions = {
@@ -27,6 +33,8 @@ export const start = () => {
   app.use(Cors(corsOptions)); // corsplugin met settings
   // starten van de server
   app.listen(port, () => {
-    console.log(`listening on port : ${process.env.PORT || port}`);
+    stdout.write(`listening on port : ${process.env.PORT || port}`);
   });
 };
+
+export default start();
