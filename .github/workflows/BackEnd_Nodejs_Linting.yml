@@ -28,7 +28,6 @@ jobs:
         cache: 'npm'
     - name: install node
       run: npm ci
-      working-directory: ./BackEnd
     - name: Run eslint with reviewdog
         # You may pin to the exact commit or the version.
         # uses: reviewdog/action-eslint@282bf9d07bc87c519d17ca3a70e94b54232b03e0
@@ -52,7 +51,7 @@ jobs:
           # flags and args of eslint command. Default: '.'
           # eslint_flags: # optional, default is .
           # The directory from which to look for and run eslint. Default '.'
-          workdir: "./BackEnd/src/" # optional, default is .
+          workdir: "./src/" # optional, default is .
           # Tool name to use for reviewdog reporter
           tool_name: "Linting" # optional, default is eslint
     # - name: build the backend
@@ -60,4 +59,3 @@ jobs:
     #   working-directory: ./BackEnd
     - name: execute all the tests
       run: npm test
-      working-directory: ./BackEnd
