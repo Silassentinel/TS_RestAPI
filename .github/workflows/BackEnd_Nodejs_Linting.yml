@@ -29,6 +29,8 @@ jobs:
     - name: install node
       run: npm ci
     - name: Run eslint with reviewdog
+      env:
+        REVIEWDOG_GITHUB_API_TOKEN: "${{ github.GHTOKEN }}"
         # You may pin to the exact commit or the version.
         # uses: reviewdog/action-eslint@282bf9d07bc87c519d17ca3a70e94b54232b03e0
       uses: reviewdog/action-eslint@v1.14.0
