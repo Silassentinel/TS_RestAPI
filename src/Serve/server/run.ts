@@ -1,5 +1,5 @@
 import cors from 'cors';
-import * as dotenv from 'dotenv';
+import 'dotenv/config';
 import Express from 'express';
 import Helmet from 'helmet';
 import { stdout } from 'process';
@@ -7,7 +7,7 @@ import * as fallback from '../Routes/Fallback';
 
 // Start method
 const start = () => {
-  dotenv.config(); // server config uit een .env bestand halen
+  // dotenv.config(); // server config uit een .env bestand halen
   const Cors = cors; // toelaten van cors // dit werkte tot op een zeker punt en werd dan teniet gedaan
   // nog niet gevonden wat er toe leidde
   const port = process.env.PORT || 3000; // zetten van de port

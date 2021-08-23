@@ -1,4 +1,5 @@
-import * as dotenv from 'dotenv';
+import 'dotenv/config';
+import FileWriter from './FileWriter';
 /**
  * Business Logics Layer Logger
  * creates logfiles for each error, warning, info and event
@@ -9,37 +10,36 @@ export default class BLLLogger {
    * Path to the verbose logfile
    * extracted from .env file
    */
-  private _verboseLogPath = dotenv.config();
+  private static _verboseLogPath = `${process.env.VERBOSELOGPATH}`;
 
   /**
    * Path to the error logfile
    * extracted from .env file
    */
-  private _errorLogPath = '';
+  private static _errorLogPath = `${process.env.ERRORLOGPATH}`;
 
   /**
    * Path to the warning logfile
    * extracted from .env file
    */
-  private _warningLogPath = '';
+  private static _warningLogPath = `${process.env.WARNINGLOGPATH}`;
 
   /**
    * Path to the info logfile
    * extracted from .env file
    */
-  private _infoLogPath = '';
+  private static _infoLogPath = `${process.env.INFOLOGPATH}`;
 
   /**
    * Path to the event logfile
    * extracted from .env file
    */
-  private _eventLogPath = '';
+  private static _eventLogPath = `${process.env.EVENTLOGPATH}`;
 
   /**
    * Timestamp when the logger was created
    */
-  // TODO: implement
-  private _logCreated = `${new Date().toLocaleDateString(
+  private static _logCreated = `${new Date().toLocaleDateString(
     'nl-Be',
   )} ${new Date().toLocaleTimeString('nl-Be')}`;
 
@@ -53,7 +53,16 @@ export default class BLLLogger {
    * @param {string} message - the message to write
    */
   // TODO: implement
-  public static Verbose(name: string, linesToLogg: string[] | string): void {}
+  public static Verbose(name: string, linesToLogg: string[] | string): void {
+    FileWriter.WriteFileToDisk(this._verboseLogPath, linesToLogg);
+  }
+
+  /**
+   * Method to write verbose messages to the logfile
+   * @param {string} message - the message to write
+   * @param {string} linesToLog - the lines to log
+  */
+  public static async VerboseAsync(name: string, linesToLogg: string[] | string): Promise<void> {}
 
   // #region
   // #region Error
