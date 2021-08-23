@@ -53,7 +53,7 @@ jobs:
           # flags and args of eslint command. Default: '.'
           # eslint_flags: # optional, default is .
           # The directory from which to look for and run eslint. Default '.'
-          workdir: "./src/" # optional, default is .
+          # workdir: "./src/" # optional, default is .
           # Tool name to use for reviewdog reporter
           tool_name: "Linting" # optional, default is eslint
     # - name: build the backend
