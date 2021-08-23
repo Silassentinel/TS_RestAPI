@@ -54,7 +54,11 @@ export default class BLLLogger {
    */
   // TODO: implement
   public static Verbose(name: string, linesToLogg: string[] | string): void {
-    FileWriter.WriteFileToDisk(this._verboseLogPath, linesToLogg);
+    try {
+      FileWriter.WriteFileToDisk(this._verboseLogPath, `${`${this._logCreated} - ${linesToLogg}`}`);
+    } catch (error) {
+      throw new BLLLoggerException(error);
+    }
   }
 
   /**

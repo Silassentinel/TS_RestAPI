@@ -9,7 +9,7 @@ export default class OrderLineException extends BaseException {
    */
   constructor(name: string, message: string, error: Error, data?: unknown | undefined) {
     super(name, message, error, data);
-    this.name = 'UserOrderException';
+    this.name = 'OrderLineException';
     this.message = message;
   }
 }

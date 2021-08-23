@@ -12,7 +12,7 @@ export default class OrderlineRepoException extends BaseException {
     */
   constructor(name: string, message: string, error: Error, data?: unknown) {
     super(name, message, error, data);
-    this.name = 'UserOrderException';
+    this.name = 'OrderlineRepoException';
     this.message = message;
   }
 }

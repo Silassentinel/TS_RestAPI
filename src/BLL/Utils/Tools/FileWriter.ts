@@ -53,10 +53,28 @@ export default class FileWriter {
             new Error('Cannot write to disk if no data is specified'),
           );
         }
-        fs.writeFile(filePath, data, 'utf8', (err: unknown) => {
-          if (err) {
-            throw new FileWriterException('WriteToDiskError - ', 'There was an error writing to disk \n', err as Error);
-          } else stdout.write('File written to disk \n');
-        });
+        if (typeof data === 'string') {
+          fs.writeFile(filePath, data, 'utf8', (err: unknown) => {
+            if (err) {
+              throw new FileWriterException(
+                'WriteToDiskError - ',
+                'There was an error writing to disk \n',
+                  err as Error,
+              );
+            } else stdout.write('File written to disk \n');
+          });
+        } else {
+          data.forEach((item) => {
+            fs.writeFile(filePath, item, 'utf8', (err: unknown) => {
+              if (err) {
+                throw new FileWriterException(
+                  'WriteToDiskError - ',
+                  'There was an error writing to disk \n',
+                            err as Error,
+                );
+              } else stdout.write('File written to disk \n');
+            });
+          });
+        }
       }
 }

@@ -13,7 +13,7 @@ export default class ApplicationManagerException extends BaseException {
   */
   constructor(name: string, message: string, error: Error, data?: unknown | undefined) {
     super(name, message, error, data);
-    this.name = 'UserOrderException';
+    this.name = 'ApplicationManagerException';
     this.message = message;
   }
 }

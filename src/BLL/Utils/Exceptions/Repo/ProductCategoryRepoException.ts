@@ -12,7 +12,7 @@ export default class ProductCategoryRepoException extends BaseException {
   */
   constructor(name: string, message: string, error: Error, data?: unknown) {
     super(name, message, error, data);
-    this.name = 'OrderRepoException';
+    this.name = 'ProductCategoryRepoException';
     this.message = message;
   }
 }

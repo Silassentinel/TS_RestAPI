@@ -3,7 +3,7 @@ import BaseException from '../BaseException';
 /**
  * FileWriterException
 */
-export default class FileWriterException extends BaseException {
+export default class BLLLoggerException extends BaseException {
   /**
      * constructor
     * @param {string} name
@@ -13,7 +13,7 @@ export default class FileWriterException extends BaseException {
    */
   constructor(name: string, message: string, error: Error, data?: unknown | undefined) {
     super(name, message, error, data);
-    this.name = 'FileWriterException';
+    this.name = 'BLLLoggerException';
     this.message = message;
   }
 }
