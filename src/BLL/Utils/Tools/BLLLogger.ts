@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import BLLLoggerException from '../Exceptions/Tools/BLLLoggerException';
 import FileWriter from './FileWriter';
 /**
  * Business Logics Layer Logger
@@ -44,20 +45,22 @@ export default class BLLLogger {
   )} ${new Date().toLocaleTimeString('nl-Be')}`;
 
   // #endregion
+
   // #region Ctor
+  // ALL STATIC NO CTORS
   // #endregion
+
   // #region Meths
   // #region Verbose
   /**
    * Method to write verbose messages to the logfile
    * @param {string} message - the message to write
    */
-  // TODO: implement
   public static Verbose(name: string, linesToLogg: string[] | string): void {
     try {
-      FileWriter.WriteFileToDisk(this._verboseLogPath, `${`${this._logCreated} - ${linesToLogg}`}`);
+      FileWriter.WriteFileToDisk(this._verboseLogPath, `${name} - ${this._logCreated} - \n`, `${linesToLogg}`);
     } catch (error) {
-      throw new BLLLoggerException(error);
+      throw new BLLLoggerException('BLLLogger - VERBOSE', 'Something went wrong while writing VERBOSE', error as Error);
     }
   }
 
@@ -66,34 +69,105 @@ export default class BLLLogger {
    * @param {string} message - the message to write
    * @param {string} linesToLog - the lines to log
   */
-  public static async VerboseAsync(name: string, linesToLogg: string[] | string): Promise<void> {}
+  public static async VerboseAsync(name: string, linesToLogg: string[] | string): Promise<void> {
+    await FileWriter.WriteFileToDiskAsync(this._verboseLogPath, name, linesToLogg).catch((error:unknown) => {
+      throw new BLLLoggerException(
+        'BLLLogger - VERBOSEAsync',
+        'Something went wrong while writing VERBOSE',
+        error as Error,
+      );
+    });
+  }
 
-  // #region
+  // #endregion
+
   // #region Error
   /**
    * Method to write error messages to the logfile
    * @param {string} message - the message to write
+   * @param {string} linesToLog - the lines to log
    */
-  // TODO: implement
-  public static Error(name: string, linesToLog: string[] | string): void {}
+  public static Error(name: string, linesToLog: string[] | string): void {
+    try {
+      FileWriter.WriteFileToDisk(this._errorLogPath, `${name} - ${this._logCreated} - \n`, `${linesToLog}`);
+    } catch (error) {
+      throw new BLLLoggerException('BLLLogger - ERROR', 'Something went wrong while writing ERROR', error as Error);
+    }
+  }
 
+  /**
+   * ErrorAsync
+   * @param name - name of the log
+   * @param linesToLog - lines to log
+   */
+  public static async ErrorAsync(name: string, linesToLog: string[] | string): Promise<void> {
+    await FileWriter.WriteFileToDiskAsync(this._errorLogPath, name, linesToLog).catch((error:unknown) => {
+      throw new BLLLoggerException(
+        'BLLLogger - ERRORAsync',
+        'Something went wrong while writing ERROR',
+        error as Error,
+      );
+    });
+  }
   // #endregion
+
   // #region Warning
   /**
    * Method to write warning messages to the logfile
    * @param {string} message - the message to write
    */
-  // TODO: implement
-  public static Warning(name: string, linesToLog: string[] | string): void {}
+  public static Warning(name: string, linesToLog: string[] | string): void {
+    try {
+      FileWriter.WriteFileToDisk(this._warningLogPath, `${name} - ${this._logCreated} - \n`, `${linesToLog}`);
+    } catch (error) {
+      throw new BLLLoggerException('BLLLogger - WARNING', 'Something went wrong while writing WARNING', error as Error);
+    }
+  }
 
+  /**
+   * WarningAsync
+   * @param name - name of the log
+   * @param linesToLog - lines to log
+   */
+  public static async WarningAsync(name: string, linesToLog: string[] | string): Promise<void> {
+    await FileWriter.WriteFileToDiskAsync(this._infoLogPath, name, linesToLog).catch((error:unknown) => {
+      throw new BLLLoggerException(
+        'BLLLogger - INFOAsync',
+        'Something went wrong while writing INFO',
+        error as Error,
+      );
+    });
+  }
   // #endregion
+
   // #region Info
   /**
    * Method to write info messages to the logfile
    * @param {string} message - the message to write
    */
-  // TODO: implement
-  public static Info(name: string, linesToLog: string[] | string): void {}
+  public static Info(name: string, linesToLog: string[] | string): void {
+    try {
+      FileWriter.WriteFileToDisk(this._infoLogPath, `${name} - ${this._logCreated} - \n`, `${linesToLog}`);
+    } catch (error) {
+      throw new BLLLoggerException('BLLLogger - INFO', 'Something went wrong while writing INFO', error as Error);
+    }
+  }
+
+  /**
+   * InfoAsync
+   * @param name - name of the log
+   * @param linesToLog - lines to log
+   * @returns {Promise<void>}
+   */
+  public static async InfoAsync(name: string, linesToLog: string[] | string): Promise<void> {
+    await FileWriter.WriteFileToDiskAsync(this._infoLogPath, name, linesToLog).catch((error:unknown) => {
+      throw new BLLLoggerException(
+        'BLLLogger - INFOAsync',
+        'Something went wrong while writing INFO',
+        error as Error,
+      );
+    });
+  }
 
   // #endregion
   // #region Event
@@ -101,8 +175,29 @@ export default class BLLLogger {
    * Method to write event messages to the logfile
    * @param {string} message - the message to write
    */
-  // TODO: implement
-  public static Event(name: string, linesToLog: string[] | string): void {}
+  public static Event(name: string, linesToLog: string[] | string): void {
+    try {
+      FileWriter.WriteFileToDisk(this._eventLogPath, `${name} - ${this._logCreated} - \n`, `${linesToLog}`);
+    } catch (error) {
+      throw new BLLLoggerException('BLLLogger - EVENT', 'Something went wrong while writing EVENT', error as Error);
+    }
+  }
+
+  /**
+   * EventAsync
+   * @param name - name of the log
+   * @param linesToLog - lines to log
+   * @returns {Promise<void>}
+   */
+  public static async EventAsync(name: string, linesToLog: string[] | string): Promise<void> {
+    await FileWriter.WriteFileToDiskAsync(this._eventLogPath, name, linesToLog).catch((error:unknown) => {
+      throw new BLLLoggerException(
+        'BLLLogger - EVENTAsync',
+        'Something went wrong while writing EVENT',
+        error as Error,
+      );
+    });
+  }
   // #endregion
   // #endregion
 }
