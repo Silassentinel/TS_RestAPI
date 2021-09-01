@@ -1,3 +1,4 @@
+import BLLLogger from '../../Tools/BLLLogger';
 import BaseException from '../BaseException';
 /**
  * Product category repository exception
@@ -14,5 +15,6 @@ export default class ProductCategoryRepoException extends BaseException {
     super(name, message, error, data);
     this.name = 'ProductCategoryRepoException';
     this.message = message;
+    BLLLogger.ErrorAsync(this.name, `${this.message}, ${error}, ${data}`);
   }
 }

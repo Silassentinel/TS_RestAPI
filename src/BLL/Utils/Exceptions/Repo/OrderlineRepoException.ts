@@ -1,3 +1,4 @@
+import BLLLogger from '../../Tools/BLLLogger';
 import BaseException from '../BaseException';
 /**
  * Orderlne Repo Exception
@@ -14,5 +15,6 @@ export default class OrderlineRepoException extends BaseException {
     super(name, message, error, data);
     this.name = 'OrderlineRepoException';
     this.message = message;
+    BLLLogger.ErrorAsync(this.name, `${this.message}, ${error}, ${data}`);
   }
 }

@@ -1,3 +1,4 @@
+import BLLLogger from '../Tools/BLLLogger';
 import BaseException from './BaseException';
 
 /**
@@ -15,5 +16,6 @@ export default class ApplicationManagerException extends BaseException {
     super(name, message, error, data);
     this.name = 'ApplicationManagerException';
     this.message = message;
+    BLLLogger.ErrorAsync(this.name, `${this.message}, ${error}, ${data}`);
   }
 }

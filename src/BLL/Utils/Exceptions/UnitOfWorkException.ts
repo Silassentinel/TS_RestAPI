@@ -1,3 +1,4 @@
+import BLLLogger from '../Tools/BLLLogger';
 import BaseException from './BaseException';
 /**
  * UnitOfWorkException class
@@ -14,5 +15,6 @@ export default class UnitOfWorkException extends BaseException {
     super(name, message, error, data);
     this.name = 'UnitOfWorkException';
     this.message = message;
+    BLLLogger.ErrorAsync(this.name, `${this.message}, ${error}, ${data}`);
   }
 }
