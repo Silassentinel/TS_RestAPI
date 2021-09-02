@@ -1,12 +1,18 @@
 import fs from 'fs';
 import { stdout, stderr } from 'process';
 import FileWriterException from '../Exceptions/Tools/FileWriterException';
+import FilePathChecker from './FilePathChecker';
 
 /**
  * @class FileWriter - Class to write files
 */
 export default class FileWriter {
   // #region Helper Meths
+  /**
+   * Method to verify Array content
+   * @param {string[]} array - Array of strings to write
+   * @returns {boolean} - True if the array contains only valid strings
+   */
   private static IsArrayOnlyStrings(array: string[]): boolean {
     let stringFlag = false;
     array.forEach((item: string) => {
@@ -25,21 +31,9 @@ export default class FileWriter {
  * @param {string} data - The data to write
 */
   static WriteFileToDisk = (filePath: string, name: string, data: string[] | string): void => {
-    if (filePath.length === 0) {
-      throw new FileWriterException(
-        'Empty File Path - ',
-        'File path is empty',
-        new Error('Cannot write to disk if no location is specified'),
-      );
-    }
-    // extra checks on filepath to exclude any malicious code
-    if (filePath.includes('..') || filePath.includes('/') || filePath.includes('\\')) {
-      throw new FileWriterException(
-        'Invalid File Path - ',
-        'File path contains invalid characters',
-        new Error('Invalid chars were in filePath'),
-      );
-    }
+    // check the filePath for malicious characters etc
+    FilePathChecker.CheckFilePath(filePath);
+    // check if any data is present
     if (data.length === 0) {
       throw new FileWriterException(
         'No data present - ',
@@ -47,6 +41,7 @@ export default class FileWriter {
         new Error('Cannot write to disk if no data is specified'),
       );
     }
+    // obsolete as typescript will enforce this.
     if (typeof data === 'string') {
       try {
         fs.writeFileSync(`${filePath}`, `${name} \n ${data}`, 'utf8'); // eslint-disable-line
@@ -56,6 +51,7 @@ export default class FileWriter {
         throw new FileWriterException('WriteToDiskError - ', 'There was an error writing to disk \n', err as Error);
       }
     }
+    // first if is also obsolete as typescript will enforce this.
     if (Array.isArray(data)) {
       if (this.IsArrayOnlyStrings(data)) {
         data.forEach((item) => {
@@ -80,21 +76,8 @@ export default class FileWriter {
    * @param {string} data - The data to write
    */
   static WriteFileToDiskAsync = async (filePath: string, name: string, data: string[] | string): Promise<void> => {
-    if (filePath.length === 0) {
-      throw new FileWriterException(
-        'Empty File Path - ',
-        'File path is empty',
-        new Error('Cannot write to disk if no location is specified'),
-      );
-    }
-    // extra checks on filepath to exclude any malicious code
-    if (filePath.includes('..') || filePath.includes('/') || filePath.includes('\\')) {
-      throw new FileWriterException(
-        'Invalid File Path - ',
-        'File path contains invalid characters',
-        new Error('Invalid chars were in filePath'),
-      );
-    }
+    // check the filePath for malicious characters etc
+    FilePathChecker.CheckFilePath(filePath);
     if (data.length === 0) {
       throw new FileWriterException(
         'No data present - ',
