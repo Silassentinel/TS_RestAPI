@@ -41,17 +41,6 @@ export default class FileWriter {
         new Error('Cannot write to disk if no data is specified'),
       );
     }
-    // obsolete as typescript will enforce this.
-    if (typeof data === 'string') {
-      try {
-        fs.writeFileSync(`${filePath}`, `${name} \n ${data}`, 'utf8'); // eslint-disable-line
-        return;
-      } catch (err: unknown) {
-        stderr.write((err as Error).message as string);
-        throw new FileWriterException('WriteToDiskError - ', 'There was an error writing to disk \n', err as Error);
-      }
-    }
-    // first if is also obsolete as typescript will enforce this.
     if (Array.isArray(data)) {
       if (this.IsArrayOnlyStrings(data)) {
         data.forEach((item) => {
@@ -67,8 +56,16 @@ export default class FileWriter {
           }
         });
       }
+    } else {
+      try {
+            fs.writeFileSync(`${filePath}`, `${name} \n ${data}`, 'utf8'); // eslint-disable-line
+        return;
+      } catch (err: unknown) {
+        stderr.write((err as Error).message as string);
+        throw new FileWriterException('WriteToDiskError - ', 'There was an error writing to disk \n', err as Error);
+      }
     }
-  };
+  }
 
   /**
    * Write a file Async to disk
@@ -85,19 +82,6 @@ export default class FileWriter {
         new Error('Cannot write to disk if no data is specified'),
       );
     }
-    if (typeof data === 'string') {
-      fs.writeFile(filePath, `${name} \n ${data}`, 'utf8', (err: unknown) => { // eslint-disable-line
-        if (err) {
-          stderr.write((err as Error).message as string);
-          throw new FileWriterException(
-            'WriteToDiskError - ',
-            'There was an error writing to disk \n',
-            err as Error,
-          );
-        } else stdout.write('File written to disk \n');
-      });
-      return;
-    }
     if (Array.isArray(data)) {
       data.forEach((item) => {
         fs.writeFile(filePath, `${name} \n ${item}`, 'utf8', (err: unknown) => {// eslint-disable-line
@@ -110,6 +94,17 @@ export default class FileWriter {
             );
           } else stdout.write('File written to disk \n');
         });
+      });
+    } else {
+      fs.writeFile(filePath, `${name} \n ${data}`, 'utf8', (err: unknown) => { // eslint-disable-line
+        if (err) {
+          stderr.write((err as Error).message as string);
+          throw new FileWriterException(
+            'WriteToDiskError - ',
+            'There was an error writing to disk \n',
+            err as Error,
+          );
+        } else stdout.write('File written to disk \n');
       });
     }
   };
