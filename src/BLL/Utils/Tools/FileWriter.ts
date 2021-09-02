@@ -23,18 +23,29 @@ export default class FileWriter {
     return stringFlag;
   }
 
+  /**
+   * Method to verify if the data variable
+  */
+  private static IsDataValid(data: string | string[]): boolean {
+    if (data.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
   // #endregion
   // #region Meths
   /**
  * Write a file with the given content
  * @param {string} filePath - The path of the file to write
+ * @param {string} name - The name of the file to write
  * @param {string} data - The data to write
-*/
+ */
   static WriteFileToDisk = (filePath: string, name: string, data: string[] | string): void => {
     // check the filePath for malicious characters etc
     FilePathChecker.CheckFilePath(filePath);
     // check if any data is present
-    if (data.length === 0) {
+    if (!FileWriter.IsDataValid(data)) {
       throw new FileWriterException(
         'No data present - ',
         'if there is no data there is nothing to write',
@@ -42,10 +53,10 @@ export default class FileWriter {
       );
     }
     if (Array.isArray(data)) {
-      if (this.IsArrayOnlyStrings(data)) {
+      if (FileWriter.IsArrayOnlyStrings(data)) {
         data.forEach((item) => {
           try {
-            fs.writeFileSync(filePath, `${name} \n ${item}`, 'utf8'); // eslint-disable-line
+            fs.writeFileSync(`${filePath+name}`, `${item}`, 'utf8'); // eslint-disable-line
           } catch (err: unknown) {
             stderr.write((err as Error).message as string);
             throw new FileWriterException(
@@ -58,7 +69,7 @@ export default class FileWriter {
       }
     } else {
       try {
-            fs.writeFileSync(`${filePath}`, `${name} \n ${data}`, 'utf8'); // eslint-disable-line
+            fs.writeFileSync(`${filePath+name}`, `${data}`, 'utf8'); // eslint-disable-line
         return;
       } catch (err: unknown) {
         stderr.write((err as Error).message as string);
@@ -75,7 +86,7 @@ export default class FileWriter {
   static WriteFileToDiskAsync = async (filePath: string, name: string, data: string[] | string): Promise<void> => {
     // check the filePath for malicious characters etc
     FilePathChecker.CheckFilePath(filePath);
-    if (data.length === 0) {
+    if (FileWriter.IsDataValid(data)) {
       throw new FileWriterException(
         'No data present - ',
         'if there is no data there is nothing to write',

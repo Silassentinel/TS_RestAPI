@@ -8,7 +8,7 @@ export default class FilePathChecker {
    * Method will check filePath var for malicious code and throw exception if any are found
   */
   static CheckFilePath(filePath: string): void {
-    if (filePath.includes('..') || filePath.includes('/') || filePath.includes('\\')) {
+    if (filePath.includes('..') || filePath.includes('\\')) {
       throw new FilePathCheckerException(
         'Invalid File Path - ',
         'File path contains invalid characters',

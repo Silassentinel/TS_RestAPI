@@ -74,5 +74,13 @@
         "@typescript-eslint/parser": [".ts", ".tsx"]
     }
   }
-  }
+  },
+  "overrides": [
+    {
+        "files": ["*.spec.js", "*.spec.ts"],
+        "rules": {
+            "no-unused-expressions": "off"
+        }
+    }
+]
 }
