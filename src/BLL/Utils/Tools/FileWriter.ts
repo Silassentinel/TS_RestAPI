@@ -25,6 +25,8 @@ export default class FileWriter {
 
   /**
    * Method to verify if the data variable
+   * @param {string} data - Data to check
+   * @returns {boolean} - True if the data is valid
   */
   private static IsDataValid(data: string | string[]): boolean {
     if (data.length === 0) {
@@ -36,15 +38,15 @@ export default class FileWriter {
   // #endregion
   // #region Meths
   /**
- * Write a file with the given content
- * @param {string} filePath - The path of the file to write
+ * Write a file with the given content, creating the file if it does not exist else appending to it
+ * @param {string} filePath - The path of the file to write including the file name + extension
  * @param {string} name - The name of the file to write
  * @param {string} data - The data to write
  */
   static WriteFileToDisk = (filePath: string, name: string, data: string[] | string): void => {
     // check the filePath for malicious characters etc
     FilePathChecker.CheckFilePath(filePath);
-    // check if any data is present
+    // check if any data is present and is valid
     if (!FileWriter.IsDataValid(data)) {
       throw new FileWriterException(
         'No data present - ',
@@ -52,11 +54,16 @@ export default class FileWriter {
         new Error('Cannot write to disk if no data is specified'),
       );
     }
+    // check if the data is an array
     if (Array.isArray(data)) {
+      // check if the content of the array is only strings
       if (FileWriter.IsArrayOnlyStrings(data)) {
+        // iterate through the array and write each item to the file
         data.forEach((item) => {
           try {
-            fs.writeFileSync(`${filePath+name}`, `${item}`, 'utf8'); // eslint-disable-line
+            // check if the file does not exist
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+              fs.appendFileSync(`${filePath}`, `${item}`, 'utf8'); // eslint-disable-line
           } catch (err: unknown) {
             stderr.write((err as Error).message as string);
             throw new FileWriterException(
@@ -68,8 +75,11 @@ export default class FileWriter {
         });
       }
     } else {
+      // data is string
       try {
-            fs.writeFileSync(`${filePath+name}`, `${data}`, 'utf8'); // eslint-disable-line
+        // check if file does not exist
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        fs.appendFileSync(`${filePath}`, `${data}`, 'utf8'); // eslint-disable-line
         return;
       } catch (err: unknown) {
         stderr.write((err as Error).message as string);
@@ -79,14 +89,15 @@ export default class FileWriter {
   }
 
   /**
-   * Write a file Async to disk
-   * @param {string} filePath - The path of the file to write
+   * Write a file Async to disk, creating the file if it does not exist else appending to it
+   * @param {string} filePath - The path of the file to write including the file name + extension
    * @param {string} name - The name of the file to write
    * @param {string} data - The data to write
    */
   static WriteFileToDiskAsync = async (filePath: string, name: string, data: string[] | string): Promise<void> => {
     // check the filePath for malicious characters etc
     FilePathChecker.CheckFilePath(filePath);
+    // check if any data is present and is valid
     if (FileWriter.IsDataValid(data)) {
       throw new FileWriterException(
         'No data present - ',
@@ -94,9 +105,12 @@ export default class FileWriter {
         new Error('Cannot write to disk if no data is specified'),
       );
     }
+    // check if the data is an array
     if (Array.isArray(data)) {
+      // iterate through the array and write each item to the file
       data.forEach((item) => {
-        fs.writeFile(filePath, `${name} \n ${item}`, 'utf8', (err: unknown) => {// eslint-disable-line
+        // add data to file if file does not exist create file wit data
+          fs.appendFile(filePath, `${name} \n ${item}`, 'utf8', (err: unknown) => {// eslint-disable-line
           if (err) {
             stderr.write((err as Error).message as string);
             throw new FileWriterException(
@@ -108,7 +122,8 @@ export default class FileWriter {
         });
       });
     } else {
-      fs.writeFile(filePath, `${name} \n ${data}`, 'utf8', (err: unknown) => { // eslint-disable-line
+      // data is string
+      fs.appendFile(filePath, data, 'utf-8', (err: unknown) => {// eslint-disable-line
         if (err) {
           stderr.write((err as Error).message as string);
           throw new FileWriterException(
@@ -119,6 +134,6 @@ export default class FileWriter {
         } else stdout.write('File written to disk \n');
       });
     }
-  };
+  }
   // #endregion
 }
