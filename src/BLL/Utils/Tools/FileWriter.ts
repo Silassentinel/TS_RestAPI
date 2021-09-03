@@ -43,7 +43,7 @@ export default class FileWriter {
  * @param {string} name - The name of the file to write
  * @param {string} data - The data to write
  */
-  static WriteFileToDisk = (filePath: string, name: string, data: string[] | string): void => {
+  static WriteFileToDisk = (filePath: string, data: string[] | string): void => {
     // check the filePath for malicious characters etc
     FilePathChecker.CheckFilePath(filePath);
     // check if any data is present and is valid
@@ -94,11 +94,11 @@ export default class FileWriter {
    * @param {string} name - The name of the file to write
    * @param {string} data - The data to write
    */
-  static WriteFileToDiskAsync = async (filePath: string, name: string, data: string[] | string): Promise<void> => {
+  static WriteFileToDiskAsync = async (filePath: string, data: string[] | string): Promise<void> => {
     // check the filePath for malicious characters etc
     FilePathChecker.CheckFilePath(filePath);
     // check if any data is present and is valid
-    if (FileWriter.IsDataValid(data)) {
+    if (!FileWriter.IsDataValid(data)) {
       throw new FileWriterException(
         'No data present - ',
         'if there is no data there is nothing to write',
@@ -110,7 +110,7 @@ export default class FileWriter {
       // iterate through the array and write each item to the file
       data.forEach((item) => {
         // add data to file if file does not exist create file wit data
-          fs.appendFile(filePath, `${name} \n ${item}`, 'utf8', (err: unknown) => {// eslint-disable-line
+          fs.appendFile(filePath, `${item}`, 'utf8', (err: unknown) => {// eslint-disable-line
           if (err) {
             stderr.write((err as Error).message as string);
             throw new FileWriterException(
@@ -131,7 +131,7 @@ export default class FileWriter {
             'There was an error writing to disk \n',
             err as Error,
           );
-        } else stdout.write('File written to disk \n');
+        } else stdout.write('FILE WRITER REPORTS - File written to disk \n');
       });
     }
   }

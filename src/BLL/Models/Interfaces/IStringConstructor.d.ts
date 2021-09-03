@@ -52,4 +52,11 @@ declare global {interface StringConstructor {
     IsNullOrEmpty(val: unknown) : boolean;
 }}
 
+String.IsNullOrEmpty = function (this:string, val: any): boolean {
+  if (val === undefined || val === null || val.trim() === '') {
+    return true;
+  }
+  return false;
+};
+
 export {};
