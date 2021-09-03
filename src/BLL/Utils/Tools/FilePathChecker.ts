@@ -22,7 +22,7 @@ export default class FilePathChecker {
         new Error('Invalid chars were in filePath'),
       );
     }
-    if (filePath.includes(' ')) {
+    if (String.IsNullOrEmpty(filePath)) {
       throw new FilePathCheckerException(
         'Invalid File Path - ',
         'File path contains invalid characters',

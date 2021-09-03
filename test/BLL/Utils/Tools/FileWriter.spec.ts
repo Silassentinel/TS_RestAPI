@@ -1,5 +1,3 @@
-// TODO - Add a description of this module's purpose
-// TODO - Add additional test(s) to prove functionality
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { describe, it } from 'mocha';

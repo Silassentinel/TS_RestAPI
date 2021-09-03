@@ -81,6 +81,7 @@ export default class FileWriter {
   /**
    * Write a file Async to disk
    * @param {string} filePath - The path of the file to write
+   * @param {string} name - The name of the file to write
    * @param {string} data - The data to write
    */
   static WriteFileToDiskAsync = async (filePath: string, name: string, data: string[] | string): Promise<void> => {
