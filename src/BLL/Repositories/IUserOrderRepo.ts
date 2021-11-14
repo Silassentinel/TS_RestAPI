@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { IUserOrder } from '../Models/Interfaces/IUserOrder';
+import { IUserOrder } from "../Models/Interfaces/IUserOrder";
 /**
  * UserOrder Repository
  */
-export interface UserOrderRepo {
+export interface IUserOrderRepo {
   /**
    * Get UserOrder by Id
    * @param {number} id
