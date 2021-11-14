@@ -7,46 +7,46 @@ import { IUserOrder } from './IUserOrder';
  */
 export interface IOrder {
   // #region Props
-  /**
-   *
-   */
-  Id: number;
-  /**
-   *
-   */
-  OrderNumber: string;
-  /**
-   *
-   */
-  OrderDate: Date;
-  /**
-   *
-   */
-  OrderStatus: string;
-  /**
-   *
-   */
-  OrderType: string;
-  /**
-   *
-   */
-  OrderTotal: number;
-  /**
-   *
-   */
-  OrderLines: Array<IOrderLine>;
-  /**
-   *
-   */
-  UserId: number;
-  /**
-   *
-   */
-  UserOrder: IUserOrder;
-  /**
-   *
-   */
-  ShippingInfo: IShippingInfo;
+  // /**
+  //  *
+  //  */
+  // Id: number;
+  // /**
+  //  *
+  //  */
+  // OrderNumber: string;
+  // /**
+  //  *
+  //  */
+  // OrderDate: Date;
+  // /**
+  //  *
+  //  */
+  // OrderStatus: string;
+  // /**
+  //  *
+  //  */
+  // OrderType: string;
+  // /**
+  //  *
+  //  */
+  // OrderTotal: number;
+  // /**
+  //  *
+  //  */
+  // OrderLines: Array<IOrderLine>;
+  // /**
+  //  *
+  //  */
+  // UserId: number;
+  // /**
+  //  *
+  //  */
+  // UserOrder: IUserOrder;
+  // /**
+  //  *
+  //  */
+  // ShippingInfo: IShippingInfo;
   // #endregion
 
   // #region Meths
